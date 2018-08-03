@@ -1,3 +1,6 @@
 [submodule "ros-indoor-gps-fusion"]
 	path = ros-indoor-gps-fusion
 	url = https://github.com/methylDragon/ros-indoor-gps-fusion.git
+[submodule "Example Implementation/ros-indoor-gps-fusion"]
+	path = Example Implementation/ros-indoor-gps-fusion
+	url = https://github.com/methylDragon/ros-indoor-gps-fusion.git
