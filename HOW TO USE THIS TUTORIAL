@@ -1,0 +1,9 @@
+Read the Marvelmind Indoor GPS Tutorial anytime, but BEFORE Global Pose Estimate Fusion!
+
+Then read 01 - ROS and Sensor Fusion
+and 02 - Global Pose Estimate Fusion
+
+Pre-Requisites:
+Basic ROS
+Basic Linorobot
+Basic AMCL concepts (if you know that it's a localisation algorithm that outputs poses, good enough)
