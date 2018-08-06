@@ -832,12 +832,19 @@ I'm going to add a single ekf_localization_node in this example. I will not be f
 
 > This is why you'll find that there is no remapping of odom/filtered to odom, since odom/filtered is not published by a map frame EKF node!
 
-I'll be assuming we're using the linorobot stack here! Make a robot_localization.yaml file in there to settle your configurations!
+I'll be assuming we're using the linorobot stack here! Make a robot_localization.yaml files in there to settle your configurations! We have one for odometry and one for global pose estimates.
+
+We'll call them **robot_localization_odom** and **robot_localization_map** respectively
 
 ```yaml
     <!-- Odom-IMU Extended Kalman Filter-->
-    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_global_pose"> 
-        <rosparam command="load" file="$(find linorobot)/param/ekf/robot_localization.yaml" />
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_odom" clear_params="true"> 
+        <rosparam command="load" file="$(find linorobot_ekf)/param/ekf/robot_localization_odom.yaml" />
+    </node>
+
+    <!-- AMCL and Beacon Extended Kalman Filter-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_map" clear_params="true"> 
+        <rosparam command="load" file="$(find linorobot_ekf)/param/ekf/robot_localization_map.yaml" />
     </node>
 ```
 
@@ -858,6 +865,8 @@ I'll be assuming we're using the linorobot stack here! Make a robot_localization
 Also note: I left out the imu fusion here because I'm not using it. But if you want to, then include an imu0 for the hedge_imu topic, and configure it accordingly.
 
 I've also tuned the initial_estimate_covariance and process_noise_covariance. The matrices are **not the default matrices!**
+
+**robot_localization_map.yaml**
 
 ```yaml
 frequency: 10
@@ -961,6 +970,72 @@ initial_estimate_covariance: [1e-4, 0,    0,    0,    0,    0,    0,    0,    0,
                               0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]
 ```
 
+**robot_localization_odom.yaml**
+
+```yaml
+frequency: 10
+
+two_d_mode: true
+
+odom0: /odom
+odom0_config: [false, false, false,
+               false, false, false,
+               true, true, false,
+               false, false, true,
+               false, false, false]
+               
+odom0_differential: true
+
+imu0: /imu/data
+imu0_config: [false, false, false,
+              false, false, true,
+              false, false, false,
+              false, false, true,
+              false, false, false]
+
+imu0_differential: true
+imu0_relative: true
+
+odom_frame: odom
+base_link_frame: base_footprint
+world_frame: odom
+publish_tf: true
+
+process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.01, 0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.02, 0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.01, 0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.01, 0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.015]
+
+initial_estimate_covariance: [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    1e-9, 0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    1e-9, 0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    1e-9, 0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    1e-9,  0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1e-9,  0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]
+```
+
+
+
 
 
 ### 2.9 Tune the Covariances <a name="2.9"></a>
@@ -971,7 +1046,7 @@ You'll then wonder how you might configure the covariances for the beacon source
 
 Easy! We'll just set up a static one that we'll tune.
 
-Head over to the hedge_msg_adapter package, and go into the param folder. You should find a covariances.yaml file.
+Head over to the hedge_msg_adapter package, and go into the param folder. You should find a covariances.yaml file. **I wrote that message adapter and exposed the covariances as parameters you can easily load using config files** (via rosparam.)
 
 If you read the previous part of the tutorial, this should be pretty self explanatory. To keep things simple, we'll just tune the diagonals.
 
@@ -1008,7 +1083,7 @@ pose_covariance: [0.0004, 0, 0, 0, 0, 0,
                   0, 0, 0, 0, 0, 0.0004]
 ```
 
-But here's a tuned one that worked better for me!
+But **here's a tuned one that worked better for me!**
 
 ```yaml
 # roll, pitch, yaw
