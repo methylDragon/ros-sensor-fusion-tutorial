@@ -66,7 +66,7 @@ In other words, the odometry data (gathered from sensors), and pose estimates (f
 
 [go to top](#top)
 
-There are two kinds of pose estimates, one for the robot's local position (which is continuous drifts over time), and one of the robot's estimated position globally (which is discontinuous but more accurate in the long run).
+There are two kinds of pose estimates, one for the robot's local position (which is continuous and drifts over time), and one of the robot's estimated position globally (which is discontinuous but more accurate in the long run).
 
 And these pose estimates affect **different** transforms between the three coordinate frames of the map, odom and base_link frames.
 

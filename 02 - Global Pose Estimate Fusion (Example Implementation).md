@@ -755,7 +755,7 @@ Remember this? Change x, y, z, and yaw to fit your purposes.
 
 
 
-### **2.7 Configure AMCL <a name="2.7></a>**
+### **2.7 Configure AMCL <a name="2.7"></a>**
 
 [go to top](#top)
 
@@ -963,7 +963,7 @@ initial_estimate_covariance: [1e-4, 0,    0,    0,    0,    0,    0,    0,    0,
 
 
 
-### 2.9 Tune the Covariances <a name="2.9></a>
+### 2.9 Tune the Covariances <a name="2.9"></a>
 
 [go to top](#top)
 
@@ -1047,7 +1047,7 @@ pose_covariance: [0.1404, 0, 0, 0, 0, 0,
 
 
 
-### 2.10 Validate the Sensor Fusion <a name="2.10></a>
+### 2.10 Validate the Sensor Fusion <a name="2.10"></a>
 
 [go to top](#top)
 
@@ -1079,6 +1079,25 @@ If it works really well, then congratulations! We're good to build **more marvel
 - [ ] Drive the robot around and see how well the EKF works without AMCL!
 - [ ] Tune the covariances until it reaches an acceptable area
 - [ ] Then restore AMCL's tuned parameters (500 and 2000 particles), and compare with and without EKF
+
+
+
+#### **What you should see:**
+
+1. When you run `$ rosrun tf view_frames` **you should get the following frame diagram** (or something close to it)
+   ![TF Frames](assets/2_30.png)
+
+2. **The following nodes should have been added** (check using `$rosrun rqt_graph rqt_graph`)
+
+   - hedge_msg_adapter
+   - hedge_pose
+   - amcl_pose
+   - ekf_localization_map
+
+   
+   ![rqt_graph](assets/2_31.png)
+
+   ![Detailed view](assets/2_32.png)
 
 
 
