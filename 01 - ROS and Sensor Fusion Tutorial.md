@@ -1066,8 +1066,8 @@ $ rosbag play --clock <bag_file_dir> # This publishes the clock time
 $ rosbag filter <bag_file> <output_bag_file> "<some python expression>"
 
 # For example...
-$ rosbag filter my.bag only-tf.bag "topic == '/tf'"
-$ rosbag filter my.bag only-tf.bag "topic == '/tf' and topic == '/scan'"
+$ rosbag filter my.bag only_tf.bag "topic == '/tf'"
+$ rosbag filter my.bag only_tf_and_scan.bag "topic == '/tf' and topic == '/scan'"
 
 # It can take the following
 # topic: The msg topic
@@ -1076,6 +1076,8 @@ $ rosbag filter my.bag only-tf.bag "topic == '/tf' and topic == '/scan'"
 ```
 
 If you're in doubt, just use the -h or --help flag for usage!
+
+You can also use `$ rosrun rqt_bag rqt_bag` for a [GUI interface](http://wiki.ros.org/rqt_bag)!
 
 
 
