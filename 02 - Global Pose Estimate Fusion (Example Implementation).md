@@ -27,8 +27,8 @@ https://www.youtube.com/watch?v=IyXB3UXHdeQ&feature=youtu.be
    2.2   [Message Adapters](#2.2)    
    2.3   [Create a Map](#2.3)    
    2.4   [Map Concepts](#2.4)    
-   2.5   [Setup the Static Transforms](#2.5)    
-   2.6   [Unit the Map and Beacon Coordinate Frames](#2.6)    
+   2.5   [Set Up the Static Transforms](#2.5)    
+   2.6   [Unite the Map and Beacon Coordinate Frames](#2.6)    
    2.7   [Configure AMCL](#2.7)    
    2.8   [Configure robot_localization](#2.8)    
    2.9   [Tune the Covariances](#2.9)    
@@ -396,7 +396,7 @@ Here's a map I made!
 
 **Suppose we have a map:**
 
-![New map origin](assets/2_2.png)
+![New map origin](assets/2_1.png)
 
 The navigation stack takes in map parameters using the .yaml files associated with each map image.
 
@@ -420,7 +420,7 @@ When you first view the map in RViz, press the "**Zero**" button on the top righ
 
 - The **map origin parameter** is as follows: [x, y, yaw]. It specifies the map's origin's coordinate.
 
-  - In other words, if you specify a map origin [-10, -10, 0], the robot's starting position will actually move 10 units up and 10 units to the right on the map, as the map's position (the bottom left corner) is now (-10, -10) and the robot's starting position (0, 0).    
+  - In other words, if you specify a map origin [-10, -10, 0], the robot's starting position will actually move 10 units up and 10 units to the right on the map, as the map's origin position (the bottom left corner) is now (-10, -10) and the robot's starting position (0, 0).    
 
     Like so:
 
@@ -434,7 +434,7 @@ When you first view the map in RViz, press the "**Zero**" button on the top righ
 
 
 
-### 2.5 Setup the Static Transforms <a name="2.5"></a>
+### 2.5 Set Up the Static Transforms <a name="2.5"></a>
 
 [go to top](#top)
 
