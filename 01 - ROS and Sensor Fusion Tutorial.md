@@ -374,6 +374,7 @@ So, naturally, you'd want to fuse data to cater to these two transforms!
 > It fuses:
 >
 > - All continuous sensor data and algorithm outputs that aren't global pose estimates
+>   - Yes! This is actually the case! **Non-global sensor and algorithm data is used in the global pose Kalman Filter!**
 > - Global pose estimates, for example...
 >   - AMCL (or other localisation algorithms)
 > - Absolute global pose data, for example...
