@@ -1120,6 +1120,10 @@ pose_covariance: [0.1404, 0, 0, 0, 0, 0,
 >
 > Still though, it would have been nice to have a dynamic covariance for the beacons, make sure to implement it if you have a sensor source that can do so, but as is illustrated here, it's not super necessary, just nice to have.
 
+Do note that I used the rosbag approach to ensure consistency of data, and adjusted the covariances by feel. (If a particular axis of a sensor is giving more drift, or the Kalman Filter seems to be favouring a particular source too much for that axis, it's a good rule of thumb to bump up the covariance a little bit.)
+
+There are other ways of tuning this of course, do check the tuning section of the first part of this tutorial for more details.
+
 
 
 ### 2.10 Validate the Sensor Fusion <a name="2.10"></a>

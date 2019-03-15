@@ -31,6 +31,7 @@ https://www.youtube.com/watch?v=nfvvpYBAMww&t=198s
    3.6   [Some Handy Configuration Parameters](#3.6)    
    3.7   [Fusing GPS Data](#3.7)    
    3.8   [rosbag](#3.8)    
+   3.9   [Kalman Filter Tuning](#3.9)
 
 
 
@@ -1079,6 +1080,85 @@ $ rosbag filter my.bag only_tf_and_scan.bag "topic == '/tf' and topic == '/scan'
 If you're in doubt, just use the -h or --help flag for usage!
 
 You can also use `$ rosrun rqt_bag rqt_bag` for a [GUI interface](http://wiki.ros.org/rqt_bag)!
+
+
+
+### 3.9 Kalman Filter Tuning
+
+Before we can begin tuning the Kalman Filter implemented in the robot_localization package, we need to know the parameters we can actually change:
+
+> **The Covariance matrices**
+>
+> - Process Noise
+>   - Also called the Q matrix
+>   - "How much noise your equations add to the state estimate"
+>   - "How sure you are your equations model the actual physical reality"
+>   - Higher variances cause the Kalman Filter to trust incoming measurements more
+> - Initial Estimate
+>   - Also called the R matrix
+>   - Depends on initial sensor sensitivity and error
+>   - "How certain you are of your initial state estimate"
+>   - Higher variances leads to faster convergence from first few sensor readings
+> - Sensor Data
+>   - The actual uncertainties of your sensor data
+>   - Can be dynamic, or static
+>   - Higher variances lead to the Kalman Filter biasing less towards the sensor's data for a particular axis
+>
+> **External Parameters**
+>
+> - Extra parameters like rejection threshold and the like give you more control over the specific behaviour of the Kalman Filters, beyond the pure covariance tuning and math!
+
+Here are some of my pointers from my limited experience spent tuning Kalman Filters. I'm sure there are probably some better ways, and there's a lot of research into the topic, so you may choose to delve even deeper if need be, but for me, these methods yield appreciable results (allowing for almost perfect odometry from sensor data for at least 5x cycles over 50m, given accurate enough sensors.)
+
+#### 
+
+#### **Just Tuning the Variances is Sufficient**
+
+Tuning just the variances (the diagonals) is usually enough, there is no need to change the gaussians' shapes as much.
+
+
+
+#### **Use rosbag and work with known data**
+
+Use rosbag to ensure consistency of data, and keep track of odometry performance!
+
+- You can do things like driving in a square of known size 5 to 10 times (by marking the square with tape), and check the odometry and filtered odometry using rviz. The more your filtered odometry matches the actual motion of the robot, the better your Kalman Filter is performing.
+- You could potentially also do something like a mean square error calculation with the ground truth for a more objective and quantitative metric! But I did not do this.
+
+
+
+#### **Observe, and Retune According to Feel**
+
+Setting up arbitrary values and then tuning the filters according to your own observations of how the individual sensors (and their axes) are performing, under different kinematic conditions. (Eg. Turning, linear motion, strafing, at different speed.)
+
+- Kalman Filter tuning can be achieved through a trial and error basis! It is perfectly fine to tune by feel, though it might not yield analytically optimal results, and can be tedious. (This was my approach though.)
+- If a sensor axis seems to be less reliable, or you wish to have the Kalman Filter converge less on a particular sensor's axis, bump up the covariance to reduce the influence that sensor has on the state estimate.
+
+
+
+#### **Or Calculate Variance from Sensor Data**
+
+You might also be able to collect data from your sensors, and calculate the variances mathematically. But do ensure that the variances for a particular sensor are constant, and don't just blindly 
+
+What really matters is the actual performance of the Kalman Filter, so if in doubt, go with seeing the actual performance of the Kalman Filter.
+
+
+
+#### **Prioritise Tuning Sensor Covariances**
+
+I found that the defaults for the Q and R matrices (the initial state and process noise matrices) usually yield acceptable results. Try to tune the sensor covariances and use the extra parameters first, before trying to delve into the Q and R matrices.
+
+
+
+#### **Delve into the Research**
+
+Of course, there are many ways and approaches to tuning Kalman Filters, just like there are many ways and approaches to tuning control systems like PID controllers. It's a little bit of an art, but as long as you stay organised, it should be fine.
+
+However, there are lots of research papers proposing methods and algorithms (some analytic) to tune Kalman Filters! You may look up those papers, but I personally have not used any specific methods, due to a lack of a need to yet.
+
+
+
+Good luck, and have fun!
 
 
 
