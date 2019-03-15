@@ -1158,6 +1158,12 @@ However, there are lots of research papers proposing methods and algorithms (som
 
 
 
+#### **You might even be able to use `D E E P  L E A R N I N G`**
+
+Reinforcement learning or standard deep neural network methods might be applicable for EKF and UKF tuning, since we can peg performance to a particular clear metric. But it's probably overkill, unless you need to deal with industrial standards and a lot of drifting sensor covariances.
+
+
+
 Good luck, and have fun!
 
 
