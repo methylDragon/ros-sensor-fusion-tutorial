@@ -369,7 +369,21 @@ So, naturally, you'd want to fuse data to cater to these two transforms!
 
 **Fusing Sensors for the /map frame (map -> odom)**
 
-> **For odom -> base_link** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your map frame.**
+> **For map -> odom** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your map frame.**
+>
+> It fuses:
+>
+> - All continuous sensor data and algorithm outputs that aren't global pose estimates
+> - Global pose estimates, for example...
+>   - AMCL (or other localisation algorithms)
+> - Absolute global pose data, for example...
+>   - GPS (after using navsat: http://docs.ros.org/melodic/api/robot_localization/html/navsat_transform_node.html)
+>   - Ultrasonic beacons (we're going to fuse these!)
+>   - Global Visual Odometry (from an overhead camera, perhaps?)
+
+**Fusing Sensors for the /odom frame (odom -> base_link)**
+
+> **For odom -> base_link** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your odom frame.**
 >
 > It fuses:
 >
@@ -378,20 +392,6 @@ So, naturally, you'd want to fuse data to cater to these two transforms!
 >   - Visual Odometry
 >   - Wheel Encoders
 >   - laser_scan_matcher (Using lasers to derive a local robot odometry) (or ICP!)
-
-**Fusing Sensors for the /odom frame (odom -> base_link)**
-
-> **For map -> odom** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your odom frame.**
->
-> It fuses:
->
-> - All continuous sensor data and algorithm outputs that are global pose estimates
-> - Global pose estimates, for example...
->   - AMCL (or other localisation algorithms)
-> - Absolute global pose data, for example...
->   - GPS (after using navsat: http://docs.ros.org/melodic/api/robot_localization/html/navsat_transform_node.html)
->   - Ultrasonic beacons (we're going to fuse these!)
->   - Global Visual Odometry (from an overhead camera, perhaps?)
 
 
 
