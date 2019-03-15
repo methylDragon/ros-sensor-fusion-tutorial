@@ -1083,7 +1083,9 @@ You can also use `$ rosrun rqt_bag rqt_bag` for a [GUI interface](http://wiki.ro
 
 
 
-### 3.9 Kalman Filter Tuning
+### 3.9 Kalman Filter Tuning <a name="3.9"></a>
+
+[go to top](#top)
 
 Before we can begin tuning the Kalman Filter implemented in the robot_localization package, we need to know the parameters we can actually change:
 
@@ -1092,7 +1094,7 @@ Before we can begin tuning the Kalman Filter implemented in the robot_localizati
 > - Process Noise
 >   - Also called the Q matrix
 >   - "How much noise your equations add to the state estimate"
->   - "How sure you are your equations model the actual physical reality"
+>   - "How sure you are that your equations model actual physical reality"
 >   - Higher variances cause the Kalman Filter to trust incoming measurements more
 > - Initial Estimate
 >   - Also called the R matrix
