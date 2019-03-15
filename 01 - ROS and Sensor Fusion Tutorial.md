@@ -1124,8 +1124,16 @@ Tuning just the variances (the diagonals) is usually enough, there is no need to
 
 Use rosbag to ensure consistency of data, and keep track of odometry performance!
 
-- You can do things like driving in a square of known size 5 to 10 times (by marking the square with tape), and check the odometry and filtered odometry using rviz. The more your filtered odometry matches the actual motion of the robot, the better your Kalman Filter is performing.
+- You can do things like driving in a square of known size 5 to 10 times (by marking the square with tape), and checking the odometry and filtered odometry using rviz. The more your filtered odometry matches the actual motion of the robot, the better your Kalman Filter is performing.
 - You could potentially also do something like a mean square error calculation with the ground truth for a more objective and quantitative metric! But I did not do this.
+
+When your Kalman Filter works, the difference is really quite obvious!
+
+Here, red is the filtered odometry for driving in a known 1m square. Blue is unfiltered.
+
+![1552676752994](assets/1552676752994.png)
+
+
 
 
 
