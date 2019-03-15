@@ -369,7 +369,7 @@ So, naturally, you'd want to fuse data to cater to these two transforms!
 
 **Fusing Sensors for the /map frame (map -> odom)**
 
-> **For map -> odom** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your map frame.**
+> **For odom -> base_link** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your map frame.**
 >
 > It fuses:
 >
@@ -381,11 +381,11 @@ So, naturally, you'd want to fuse data to cater to these two transforms!
 
 **Fusing Sensors for the /odom frame (odom -> base_link)**
 
-> **For odom -> base_link** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your odom frame.**
+> **For map -> odom** you need an ekf/ukf_localization_node with the node's **"world_frame" parameter set to the name of your odom frame.**
 >
 > It fuses:
 >
-> - All continuous sensor data and algorithm outputs that aren't global pose estimates
+> - All continuous sensor data and algorithm outputs that are global pose estimates
 > - Global pose estimates, for example...
 >   - AMCL (or other localisation algorithms)
 > - Absolute global pose data, for example...
