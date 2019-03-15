@@ -1052,7 +1052,7 @@ If you read the previous part of the tutorial, this should be pretty self explan
 
 But specifically for us with the use of the beacons, just adjust the pose_covariance parameter accordingly, and remember to roslaunch the adapter so the parameters will be loaded in! (Remember, lower covariance means higher confidence!)
 
-I put in some starter values for the pose covariance based off of the Marvelmind beacon reported +-2cm resolution. Since it's a covariance, it means that the diagonals are actually the variances! Which is the standard deviation squared. So... 0.02 ^ 2 = 0.004
+I put in some starter values for the pose covariance based off of the Marvelmind beacon reported +-2cm resolution. Since it's a covariance, it means that the diagonals are actually the variances! Which is the standard deviation squared. So... 0.02 ^ 2 = 0.0004
 
 ```yaml
 # roll, pitch, yaw
